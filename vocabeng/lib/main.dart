@@ -1,34 +1,41 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MyApp(
+      items: List<String>.generate(1000, (i) => "word $i"),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final List<String> items;
+
+  const MyApp({super.key, required this.items});
+
   @override
   Widget build(BuildContext context) {
+    const title = 'Today Vocab List';
+
     return MaterialApp(
+      title: title,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('List of today\'s words'),
+          title: const Text(title),
         ),
-        body: ListView(
-          children: const <Widget>[
-            ListTile(
-              leading: Icon(Icons.star),
-              title: Text('new word 1'),
-            ),
-            ListTile(
-              leading: Icon(Icons.star),
-              title: Text('new word 2'),
-            ),
-            ListTile(
-              leading: Icon(Icons.star),
-              title: Text('new word 3'),
-            ),
-          ],
+        body: ListView.builder(
+          itemCount: items.length,
+          prototypeItem: ListTile(
+            title: Text(items.first),
+          ),
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(items[index]),
+            );
+          },
         ),
       ),
     );
   }
 }
+
